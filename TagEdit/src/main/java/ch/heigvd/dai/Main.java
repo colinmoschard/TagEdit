@@ -4,6 +4,9 @@ import picocli.CommandLine;
 import picocli.CommandLine.Option;
 import picocli.CommandLine.Parameters;
 
+import java.io.InputStreamReader;
+import java.io.BufferedReader;
+
 @CommandLine.Command(
         name = "tagedit",
         description = "Changes the tags of an audio file",
@@ -49,70 +52,96 @@ public class Main implements Runnable {
     @Override
     public void run() {
 
-        /* 
-        TaggerFile taggerFile = new TaggerFile(inputPath);
-
-        taggerFile.getTags();
-        
-        taggerFile.editArtist("Patrick");
-        taggerFile.editTitle("testTitle");
-        taggerFile.editYear("2024");
-        taggerFile.editAlbumName("the best album");
-        taggerFile.editTrackNumber("025");
-
-        taggerFile.writeFile(outputPath);
-        */
-
         // Cette méthode sera exécutée si aucune option -v ou --version n'est spécifiée
         if(fileName == null) {
             System.out.println("No file given");
             return;
         }
 
-        // open file
+        TaggerFile taggerFile = new TaggerFile(fileName);
 
-        // get file tags
+        String[] tags = taggerFile.getTags();
 
         if(artist == null && year == null && title == null && album == null) {
-            System.out.println("showing tags:");
 
-            // show file tags
+            System.out.println("Showing tags:");
+            displayTags(tags);
 
             return;
         }
 
-        if (title != null) {
-            // edit title
+        if (title != null && !title.equals(tags[0])) {
+            taggerFile.editTitle(title);
         }
 
-        if (artist != null) {
+        if (artist != null && !artist.equals(tags[1])) {
 
-            // edit artist
+            taggerFile.editArtist(artist);
         }
 
-        if (year != null) {
+        if (year != null && !year.equals(tags[4])) {
 
-            // edit year
+            taggerFile.editYear(year);
         }
 
-        if (trackNo != null) {
+        if (trackNo != null && !trackNo.equals(tags[3])) {
 
-            // edit track number
+            taggerFile.editTrackNumber(trackNo);
         }
 
-        if (album != null) {
+        if (album != null && !album.equals(tags[2])) {
 
-            // edit album
+            taggerFile.editAlbumName(album);
         }
 
-        // check if modified tags are different from original
+        tags = taggerFile.getTags();
 
-        // display modified tags
-
-        String newFileName = System.console().readLine("Enter new filename: ");
-
-        // save copy of file
+        System.out.println("Showing tags with modifications:");
+        displayTags(tags);
 
 
+
+
+        System.out.print("Enter new filename: ");
+        String newFileName;
+
+        // try catch is necessary to use Reader. if it fails, filename will default to original file name
+        // and thus overwrite the old file.
+        try{
+            // Better than System.console().ReadLine() because it only works in interactive consoles.
+            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+            newFileName = br.readLine();
+        } catch (Exception ex){
+            newFileName = fileName;
+            System.out.println();
+        }
+
+
+        if (newFileName == null) {
+            System.out.println("No file given");
+            return;
+        }
+
+        if(newFileName.equals(fileName)) {
+            System.out.println("Overwriting original file...");
+        } else {
+            System.out.println("Creating new file...");
+        }
+
+        if(taggerFile.writeFile(newFileName)){
+            System.out.println("Complete.");
+        } else {
+            System.out.println("An error has occurred.");
+        }
+    }
+
+    private void displayTags(String[] tags) {
+        System.out.println("Track number 	: " + tags[3]);
+        System.out.println("Track title 	: " + tags[0]);
+        System.out.println("Album name	    : " + tags[2]);
+        System.out.println("Artist name	    : " + tags[1]);
+        System.out.println("Year of track	: " + tags[4]);
+
+        System.out.println();
     }
 }
