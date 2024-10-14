@@ -6,8 +6,8 @@ import picocli.CommandLine.Parameters;
 
 @CommandLine.Command(
         name = "tagedit",
-        description = "Print a 'Hello World!' type of message.",
-        version = "TagEdit 0.0.1",
+        description = "Changes the tags of an audio file",
+        version = "TagEdit 0.2",
         mixinStandardHelpOptions = true)
 public class Main implements Runnable {
     @Option(
