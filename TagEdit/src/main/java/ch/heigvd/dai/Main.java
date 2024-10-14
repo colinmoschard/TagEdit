@@ -1,22 +1,14 @@
 package ch.heigvd.dai;
 
 import picocli.CommandLine;
-import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 import picocli.CommandLine.Parameters;
-
-import java.io.File;
-import java.math.BigInteger;
-import java.nio.file.Files;
-import java.security.MessageDigest;
-import java.util.concurrent.Callable;
 
 @CommandLine.Command(
         name = "tagedit",
         description = "Print a 'Hello World!' type of message.",
         version = "TagEdit 0.0.1",
         mixinStandardHelpOptions = true)
-
 public class Main implements Runnable {
     @Option(
             names = {"-v", "--version"},
@@ -42,11 +34,18 @@ public class Main implements Runnable {
     @Option(names="--artist", description = "artist name")
     String artist;
 
+    /**
+     * Entry point
+     * @param args arguments to give to the program
+     */
     public static void main(String[] args) {
         int exitCode = new CommandLine(new Main()).execute(args);
         System.exit(exitCode);
     }
 
+    /**
+     * Called when running the program
+     */
     @Override
     public void run() {
         // Cette méthode sera exécutée si aucune option -v ou --version n'est spécifiée
@@ -65,6 +64,10 @@ public class Main implements Runnable {
             // show file tags
 
             return;
+        }
+
+        if (title != null) {
+            // edit title
         }
 
         if (artist != null) {
