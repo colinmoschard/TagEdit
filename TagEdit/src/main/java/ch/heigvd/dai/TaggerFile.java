@@ -4,6 +4,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 import org.jaudiotagger.audio.AudioFile;
+import org.jaudiotagger.audio.AudioFileFilter;
 import org.jaudiotagger.audio.AudioFileIO;
 import org.jaudiotagger.tag.FieldKey;
 import org.jaudiotagger.tag.Tag;
@@ -14,16 +15,19 @@ public class TaggerFile {
     private String album;
     private String trackNo;
     private String year;
-    private String filename;
-    private Tag tag;
 
+    private String filename;
+
+    /**
+     * Constructor that fills the tag fields of the TaggerFile class
+     * @param filename: path of the existing flac file
+     */
     public TaggerFile(String filename){
         try{
             this.filename = filename;
             File file = new File(filename);
             AudioFile audioFile = AudioFileIO.read(file);
             Tag tag = audioFile.getTag();
-            this.tag = tag;
 
             title = tag.getFirst(FieldKey.TITLE);
             artist = tag.getFirst(FieldKey.ARTIST);
@@ -36,16 +40,33 @@ public class TaggerFile {
         }
     }
 
+    /**
+     * Writes a new file with the new specified tags
+     * @param newFileName: path of the file that will be created
+     * @return the success or failure of the file writing
+     */
     public boolean writeFile(String newFileName){
         try {
-            File inputFile = new File(this.filename);
             File outputFile = new File(newFileName);
-            
-            Files.copy(Path.of(filename), Path.of(newFileName));
-            //AudioFile audioFile = AudioFileIO.read(file);
-            //Tag tag = audioFile.getTag();
+            Path pathNewFile = Path.of(newFileName);
+
+            if(Files.exists(pathNewFile)) {
+                Files.delete(pathNewFile);
+            }
+            Files.copy(Path.of(filename), pathNewFile);
+            AudioFile audioFile = AudioFileIO.read(outputFile);
+
+            Tag tag = audioFile.getTag();
+            tag.setField(FieldKey.TITLE, title);
+            tag.setField(FieldKey.ARTIST, artist);
+            tag.setField(FieldKey.ALBUM, album);
+            tag.setField(FieldKey.TRACK, trackNo);
+            tag.setField(FieldKey.YEAR, year);
+
+            AudioFileIO.write(audioFile);
         }catch (Exception e){
             e.printStackTrace();
+            return false;
         }
         return true;
     }
