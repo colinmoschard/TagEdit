@@ -48,6 +48,21 @@ public class Main implements Runnable {
      */
     @Override
     public void run() {
+
+        /* 
+        TaggerFile taggerFile = new TaggerFile(inputPath);
+
+        taggerFile.getTags();
+        
+        taggerFile.editArtist("Patrick");
+        taggerFile.editTitle("testTitle");
+        taggerFile.editYear("2024");
+        taggerFile.editAlbumName("the best album");
+        taggerFile.editTrackNumber("025");
+
+        taggerFile.writeFile(outputPath);
+        */
+
         // Cette méthode sera exécutée si aucune option -v ou --version n'est spécifiée
         if(fileName == null) {
             System.out.println("No file given");
@@ -97,6 +112,7 @@ public class Main implements Runnable {
         String newFileName = System.console().readLine("Enter new filename: ");
 
         // save copy of file
+
 
     }
 }
