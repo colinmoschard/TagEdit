@@ -1,5 +1,7 @@
 package ch.heigvd.dai;
 import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 import org.jaudiotagger.audio.AudioFile;
 import org.jaudiotagger.audio.AudioFileIO;
@@ -12,12 +14,16 @@ public class TaggerFile {
     private String album;
     private String trackNo;
     private String year;
+    private String filename;
+    private Tag tag;
 
     public TaggerFile(String filename){
         try{
+            this.filename = filename;
             File file = new File(filename);
             AudioFile audioFile = AudioFileIO.read(file);
             Tag tag = audioFile.getTag();
+            this.tag = tag;
 
             title = tag.getFirst(FieldKey.TITLE);
             artist = tag.getFirst(FieldKey.ARTIST);
@@ -28,6 +34,20 @@ public class TaggerFile {
         }catch(Exception e){
             e.printStackTrace();
         }
+    }
+
+    public boolean writeFile(String newFileName){
+        try {
+            File inputFile = new File(this.filename);
+            File outputFile = new File(newFileName);
+            
+            Files.copy(Path.of(filename), Path.of(newFileName));
+            //AudioFile audioFile = AudioFileIO.read(file);
+            //Tag tag = audioFile.getTag();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return true;
     }
 
     /**
@@ -58,8 +78,6 @@ public class TaggerFile {
         this.year = year;
     }
 
-    public boolean writeFile(String newFileName){
-        return true;
-    }
+
 
 }
