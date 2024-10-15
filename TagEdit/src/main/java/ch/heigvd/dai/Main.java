@@ -13,6 +13,7 @@ import java.io.BufferedReader;
         version = "TagEdit 0.2",
         mixinStandardHelpOptions = true)
 public class Main implements Runnable {
+
     @Option(
             names = {"-v", "--version"},
             versionHelp = true,
@@ -37,6 +38,7 @@ public class Main implements Runnable {
     @Option(names="--artist", description = "artist name")
     String artist;
 
+
     /**
      * Entry point
      * @param args arguments to give to the program
@@ -46,13 +48,13 @@ public class Main implements Runnable {
         System.exit(exitCode);
     }
 
+
     /**
      * Called when running the program
      */
     @Override
     public void run() {
 
-        // Cette méthode sera exécutée si aucune option -v ou --version n'est spécifiée
         if(fileName == null) {
             System.out.println("No file given");
             return;
@@ -62,6 +64,7 @@ public class Main implements Runnable {
 
         String[] tags = taggerFile.getTags();
 
+        // if no option has been entered, only display tags.
         if(artist == null && year == null && title == null && album == null) {
 
             System.out.println("Showing tags:");
@@ -71,6 +74,7 @@ public class Main implements Runnable {
         }
 
         if (title != null && !title.equals(tags[0])) {
+
             taggerFile.editTitle(title);
         }
 
@@ -99,27 +103,22 @@ public class Main implements Runnable {
         System.out.println("Showing tags with modifications:");
         displayTags(tags);
 
-
-
-
-        System.out.print("Enter new filename: ");
-        String newFileName;
-
+        System.out.print("Enter new filename (enter to overwrite original): ");
+        
         // try catch is necessary to use Reader. if it fails, filename will default to original file name
         // and thus overwrite the old file.
+        String newFileName = null;
         try{
             // Better than System.console().ReadLine() because it only works in interactive consoles.
             BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
             newFileName = br.readLine();
         } catch (Exception ex){
-            newFileName = fileName;
             System.out.println();
         }
 
-
         if (newFileName == null) {
-            System.out.println("No file given");
-            return;
+            System.out.println("No filename given");
+            newFileName = fileName;
         }
 
         if(newFileName.equals(fileName)) {
@@ -128,6 +127,11 @@ public class Main implements Runnable {
             System.out.println("Creating new file...");
         }
 
+        // adds ".flac" if the filename doesn't have it
+        if(newFileName.length() > 4 && !newFileName.substring(newFileName.length() - 5).equalsIgnoreCase("flac"))
+            newFileName += ".flac";
+
+        // checks whether the writing has succeeded or not 
         if(taggerFile.writeFile(newFileName)){
             System.out.println("Complete.");
         } else {
@@ -135,6 +139,10 @@ public class Main implements Runnable {
         }
     }
 
+    /**
+     * Prints contents of tags in the console
+     * @param tags [0]:title, [1]: artist, [2]: album, [3]: trackNo, [4]: year
+     */
     private void displayTags(String[] tags) {
         System.out.println("Track number 	: " + tags[3]);
         System.out.println("Track title 	: " + tags[0]);
