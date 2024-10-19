@@ -1,4 +1,6 @@
-## IntelliJ IDEA
+*.jar
+*.flac
+dependency-reduced-pom.xml
 
 # General
 .idea/libraries/
