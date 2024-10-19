@@ -10,7 +10,7 @@ import java.io.BufferedReader;
 @CommandLine.Command(
         name = "tagedit",
         description = "Changes the tags of an audio file",
-        version = "TagEdit 0.2",
+        version = "TagEdit 1.0",
         mixinStandardHelpOptions = true)
 public class Main implements Runnable {
 
