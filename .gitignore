@@ -1,24 +1,23 @@
 *.jar
 *.flac
-dependency-reduced-pom.xml
 
 # General
-.idea/libraries/
-.idea/shelf/
-.idea/compiler.xml
-.idea/jarRepositories.xml
-.idea/modules.xml
-.idea/workspace.xml
+**/.idea/libraries/
+**/.idea/shelf/
+**/.idea/compiler.xml
+**/.idea/jarRepositories.xml
+**/.idea/modules.xml
+**/.idea/workspace.xml
 *.iws
 *.iml
 *.ipr
 
 # Editor-based HTTP Client requests
-.idea/httpRequests/
+**/.idea/httpRequests/
 
 # Datasource local storage ignored files
-.idea/dataSources/
-.idea/dataSources.local.xml
+**/.idea/dataSources/
+**/.idea/dataSources.local.xml
 
 ## Linux
 
@@ -31,7 +30,7 @@ dependency-reduced-pom.xml
 .DS_Store
 
 ## Maven
-.mvn/wrapper/maven-wrapper.jar
+**/.mvn/wrapper/maven-wrapper.jar
 target/
 
 ## Windows
