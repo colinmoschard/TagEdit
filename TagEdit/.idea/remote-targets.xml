@@ -1,14 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="RemoteTargetsManager">
+    <option name="projectDefaultTargetUuid" value="09d9cf88-55b4-477c-aaa3-0001743788a9" />
     <targets>
-      <target name="WSL" type="wsl" uuid="2fef8e22-c6d3-49df-9ace-9858d8fe52bf">
+      <target name="WSL - Ubuntu" type="wsl" uuid="454a0781-d9a7-4fbc-a4b6-e4dbbea6ba3d">
         <config>
           <option name="distributionMsId" value="Ubuntu" />
+          <option name="projectRootOnTarget" value="{exitCode=0, timeout=false, cancelled=false, stdout=/tmp/tmp.BvwiB70A75&#10;, stderr=}/TagEdit" />
         </config>
+        <ContributedStateBase type="MavenRuntime">
+          <config>
+            <option name="homePath" value="/home/wslrip/.sdkman/candidates/maven/current" />
+          </config>
+        </ContributedStateBase>
         <ContributedStateBase type="JavaLanguageRuntime">
           <config>
-            <option name="homePath" value="/home/colinmoschard/.sdkman/candidates/java/21.0.4-tem" />
+            <option name="homePath" value="/home/wslrip/.sdkman/candidates/java/current" />
           </config>
         </ContributedStateBase>
       </target>
